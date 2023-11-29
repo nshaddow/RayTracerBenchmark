@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from tqdm import tqdm
 
 def normalize(vector):
 		return vector / np.linalg.norm(vector)
@@ -64,7 +65,7 @@ def render():
 
         image = np.zeros((height, width, 3))
 
-        for i, y in enumerate(np.linspace(screen[1], screen[3], height)):
+        for i, y in tqdm(enumerate(np.linspace(screen[1], screen[3], height)), total=height):
                 for j, x in enumerate(np.linspace(screen[0], screen[2], width)):
                         # screen is on origin
                         pixel = np.array([x, y, 0])
@@ -113,11 +114,9 @@ def render():
                                 direction = reflected(direction, normal_to_surface)
 
                         image[i, j] = np.clip(color, 0, 1)
-                print("%d/%d" % (i + 1, height))
 
         plt.imsave('image.png', image)
 	
-t = time.process_time()
 render()
-elapsed_time = time.process_time() - t
-print(elapsed_time, "seconds")
+time.sleep(10)
+input("Press any key to exit")
